@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-Powered Voice Interview Agent - Practice interviews with real-time AI feedback powered by NVIDIA and LiveKit">
+    <title>InterviewPro AI | Voice Interview Agent</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+            </div>
+            <span class="brand-text">InterviewPro<span class="brand-ai">AI</span></span>
+        </div>
+        <div class="nav-links">
+            <button class="nav-link active" data-page="dashboard" id="nav-dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Dashboard
+            </button>
+            <button class="nav-link" data-page="interview" id="nav-interview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                Interview
+            </button>
+            <button class="nav-link" data-page="history" id="nav-history">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                History
+            </button>
+            <button class="nav-link" data-page="stats" id="nav-stats">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Statistics
+            </button>
+        </div>
+        <div class="nav-user">
+            <div class="user-avatar" id="user-avatar">U</div>
+            <input type="text" class="user-identity-input" id="user-identity" placeholder="Your name..." value="default_user">
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ═══════════ DASHBOARD PAGE ═══════════ -->
+        <section class="page active" id="page-dashboard">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Welcome back<span class="text-gradient" id="greeting-name"></span></h1>
+                    <p class="page-subtitle">Your AI interview practice dashboard</p>
+                </div>
+                <button class="btn btn-primary btn-glow" id="btn-start-interview">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                    Start Interview
+                </button>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card" id="stat-total">
+                    <div class="stat-icon" style="--accent: #6366f1">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-total-value">0</span>
+                        <span class="stat-label">Total Interviews</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-completed">
+                    <div class="stat-icon" style="--accent: #10b981">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-completed-value">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-score">
+                    <div class="stat-icon" style="--accent: #f59e0b">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-score-value">0.0</span>
+                        <span class="stat-label">Avg Score</span>
+                    </div>
+                </div>
+                <div class="stat-card" id="stat-questions">
+                    <div class="stat-icon" style="--accent: #ec4899">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-questions-value">0</span>
+                        <span class="stat-label">Questions Answered</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Upload + Recent Activity -->
+            <div class="dashboard-grid">
+                <!-- Resume Upload Card -->
+                <div class="card resume-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Resume / CV</h2>
+                        <span class="badge" id="resume-status-badge">No Resume</span>
+                    </div>
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <p class="upload-text">Drag & drop your resume here</p>
+                        <p class="upload-subtext">Supports PDF, DOCX, TXT files</p>
+                        <input type="file" id="resume-file-input" accept=".pdf,.docx,.txt,.md" hidden>
+                        <button class="btn btn-secondary btn-sm" id="btn-browse-file">Browse Files</button>
+                    </div>
+                    <div class="resume-info hidden" id="resume-info">
+                        <div class="resume-file">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span id="resume-filename">resume.pdf</span>
+                        </div>
+                        <div class="resume-parsed-info">
+                            <div class="parsed-stat"><strong id="parsed-skills">0</strong> Skills</div>
+                            <div class="parsed-stat"><strong id="parsed-experience">0</strong> Experiences</div>
+                            <div class="parsed-stat"><strong id="parsed-projects">0</strong> Projects</div>
+                        </div>
+                        <button class="btn btn-secondary btn-sm" id="btn-reupload">Upload New</button>
+                    </div>
+                </div>
+
+                <!-- Recent Interviews -->
+                <div class="card recent-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Recent Interviews</h2>
+                    </div>
+                    <div class="recent-list" id="recent-list">
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            <p>No interviews yet</p>
+                            <p class="text-muted">Start your first interview to see results here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ INTERVIEW PAGE ═══════════ -->
+        <section class="page" id="page-interview">
+            <div class="interview-container">
+                <!-- Interview Status Bar -->
+                <div class="interview-status-bar" id="interview-status-bar">
+                    <div class="status-item">
+                        <span class="status-label">Status</span>
+                        <span class="status-value" id="iv-status">Ready</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Question</span>
+                        <span class="status-value" id="iv-question-count">0 / 0</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Duration</span>
+                        <span class="status-value" id="iv-duration">00:00</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Score</span>
+                        <span class="status-value" id="iv-current-score">--</span>
+                    </div>
+                </div>
+
+                <!-- Voice Interface -->
+                <div class="voice-interface">
+                    <div class="voice-orb-container">
+                        <div class="voice-orb" id="voice-orb">
+                            <div class="orb-ring orb-ring-1"></div>
+                            <div class="orb-ring orb-ring-2"></div>
+                            <div class="orb-ring orb-ring-3"></div>
+                            <div class="orb-core">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                    <line x1="12" y1="19" x2="12" y2="23"/>
+                                    <line x1="8" y1="23" x2="16" y2="23"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="voice-status" id="voice-status">Click to start your interview</p>
+                    </div>
+
+                    <div class="voice-controls">
+                        <button class="btn btn-primary btn-lg btn-glow" id="btn-connect">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                            Connect & Start
+                        </button>
+                        <button class="btn btn-danger btn-lg hidden" id="btn-disconnect">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                            End Interview
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Transcript -->
+                <div class="transcript-panel">
+                    <div class="card-header">
+                        <h2 class="card-title">Live Transcript</h2>
+                        <span class="badge badge-live hidden" id="badge-live">● LIVE</span>
+                    </div>
+                    <div class="transcript-messages" id="transcript-messages">
+                        <div class="empty-state">
+                            <p class="text-muted">Transcript will appear here during the interview</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ HISTORY PAGE ═══════════ -->
+        <section class="page" id="page-history">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Interview History</h1>
+                    <p class="page-subtitle">Review your past interviews and performance</p>
+                </div>
+            </div>
+
+            <div class="history-filters">
+                <select class="select-input" id="filter-status">
+                    <option value="all">All Status</option>
+                    <option value="completed">Completed</option>
+                    <option value="in_progress">In Progress</option>
+                </select>
+                <select class="select-input" id="filter-type">
+                    <option value="all">All Types</option>
+                    <option value="technical">Technical</option>
+                    <option value="behavioral">Behavioral</option>
+                    <option value="mixed">Mixed</option>
+                </select>
+            </div>
+
+            <div class="history-list" id="history-list">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <p>No interviews found</p>
+                </div>
+            </div>
+
+            <!-- Interview Detail Modal -->
+            <div class="modal-overlay hidden" id="interview-detail-modal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Interview Details</h2>
+                        <button class="modal-close" id="modal-close">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════ STATISTICS PAGE ═══════════ -->
+        <section class="page" id="page-stats">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Performance Statistics</h1>
+                    <p class="page-subtitle">Track your interview improvement over time</p>
+                </div>
+            </div>
+
+            <div class="stats-overview">
+                <div class="card chart-card">
+                    <h3 class="card-title">Score Trend</h3>
+                    <div class="chart-container" id="score-trend-chart">
+                        <canvas id="score-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="card chart-card">
+                    <h3 class="card-title">Category Performance</h3>
+                    <div class="category-bars" id="category-bars">
+                        <!-- Filled dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-detail-grid">
+                <div class="card">
+                    <h3 class="card-title">Performance Breakdown</h3>
+                    <div class="breakdown-list" id="breakdown-list">
+                        <div class="empty-state">
+                            <p class="text-muted">Complete interviews to see your breakdown</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Improvement Areas</h3>
+                    <div class="improvement-list" id="improvement-list">
+                        <div class="empty-state">
+                            <p class="text-muted">Areas for improvement will appear here</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
